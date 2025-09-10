@@ -1,0 +1,5 @@
+universe: "SP500"
+rebalance_freq: "D"         # D = daily
+holding_period: 1           # days
+cost_bps: 10                # 10 basis points per trade
+neutralize_sector: false
