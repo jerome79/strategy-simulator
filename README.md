@@ -1,4 +1,4 @@
-# 📈 Strategy Simulator (Week 10)
+# 📈 Strategy Simulator
 
 ## Business Goal
 Test whether sentiment extracted from financial news has predictive power for stock returns.  
