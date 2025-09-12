@@ -1,22 +1,38 @@
 import pandas as pd
-import numpy as np
-from src.metrics import compute_ic, sharpe_ratio, max_drawdown
 
-def run_longshort(df: pd.DataFrame, factor_col: str, fwd_return_col: str = "fwd_return"):
+from src.metrics import compute_ic, max_drawdown, sharpe_ratio
+
+
+def run_longshort(
+    df: pd.DataFrame,
+    factor_col: str,
+    fwd_return_col: str = "fwd_return",
+) -> tuple[pd.DataFrame, dict[str, float]]:
     """
-    Simple long/short backtest:
-    - Sort by factor
-    - Long top 30%, short bottom 30%
+    Runs a simple long/short backtest.
+
+    Parameters:
+        df (pd.DataFrame): Input DataFrame containing factor and forward return columns.
+        factor_col (str): Name of the column containing factor values.
+        fwd_return_col (str, optional): Name of the column containing forward returns. Defaults to "fwd_return".
+
+    Returns:
+        tuple[pd.DataFrame, dict]:
+            - DataFrame with strategy returns and cumulative returns indexed by date.
+            - Dictionary with IC, Sharpe ratio, and Max Drawdown metrics.
     """
     df = df.copy()
     results = []
 
     for date, daily in df.groupby("date"):
-        daily = daily.dropna(subset=[factor_col, fwd_return_col])
-        if len(daily) < 10:
+        daily.dropna(subset=[factor_col, fwd_return_col], inplace=True)
+        max_day = 10
+        low = 0.3
+        high = 0.7
+        if len(daily) < max_day:
             continue
-        q_low = daily[factor_col].quantile(0.3)
-        q_high = daily[factor_col].quantile(0.7)
+        q_low = daily[factor_col].quantile(low)
+        q_high = daily[factor_col].quantile(high)
         longs = daily[daily[factor_col] >= q_high]
         shorts = daily[daily[factor_col] <= q_low]
 

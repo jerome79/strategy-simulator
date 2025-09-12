@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def compute_factors(sentiment: pd.DataFrame) -> pd.DataFrame:
     """
     Compute simple factors from sentiment panel.
