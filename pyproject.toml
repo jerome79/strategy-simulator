@@ -37,10 +37,18 @@ testpaths = ["tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["strategy-simulator"]  # adjust to your package
-omit = ["tests/*"]
+source = ["src"]
+omit = [
+  "tests/*",
+  "*/__init__.py",
+]
+
 
 [tool.coverage.report]
-fail_under = 80
-skip_covered = true
 show_missing = true
+skip_covered = true
+fail_under = 85
+exclude_also = [
+  "if __name__ == .__main__.:",
+  "pragma: no cover",
+]
