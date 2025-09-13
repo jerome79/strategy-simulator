@@ -1,9 +1,9 @@
 [tool.black]
-line-length = 150
+line-length = 175
 target-version = ["py312"]
 
 [tool.ruff]
-line-length = 150
+line-length = 175
 src = ["src", "."]
 fix = true
 
@@ -11,11 +11,13 @@ fix = true
 # E,F: pycodestyle/pyflakes, I: isort, UP: pyupgrade, B: bugbear, N: pep8-naming,
 # C4: comprehensions, TID: tidy imports, PL: pylint-like, PERF: performance, RUF: ruff-specific
 select = ["E", "F", "I", "UP", "B", "N", "C4", "TID", "PL", "PERF", "RUF"]
-ignore = ["E402","PLC0415"]
+ignore = ["E203",  # keep for Black compatibility on slicing
+]
 
 
 [tool.ruff.lint.isort]
 known-first-party = ["strategy-simulator"]  # adjust to your package
+combine-as-imports = true
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
