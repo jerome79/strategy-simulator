@@ -1,5 +1,4 @@
 import pandas as pd
-
 from src.metrics import compute_ic, max_drawdown, sharpe_ratio
 
 
