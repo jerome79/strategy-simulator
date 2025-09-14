@@ -3,7 +3,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from pytest import MonkeyPatch
-
 from src.datasets import load_prices, load_sentiment
 
 
@@ -70,7 +69,7 @@ def test_load_prices_single_ticker(monkeypatch: "MonkeyPatch") -> None:
                 assert tickers == "AAA"
             return mock_df
 
-    monkeypatch.setattr("src.datasets.yf", MockYF)
+    monkeypatch.setattr("strategy_simulator.datasets.yf", MockYF)
 
     out = load_prices(["AAA"], "2024-01-01", "2024-01-05")
     # Selecting ["Close"] should return a Series or DataFrame with close prices
@@ -124,7 +123,7 @@ def test_load_prices_multi_ticker(monkeypatch: "MonkeyPatch") -> None:
             assert tickers == ["AAA", "BBB"]
             return mock_df
 
-    monkeypatch.setattr("src.datasets.yf", MockYF)
+    monkeypatch.setattr("strategy_simulator.datasets.yf", MockYF)
 
     out = load_prices(["AAA", "BBB"], "2024-01-01", "2024-01-05")
     # After ["Close"] selection you expect a DataFrame of shape (3,2)

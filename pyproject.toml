@@ -39,7 +39,7 @@ testpaths = ["tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["src"]
+source = ["strategy_simulator"]
 omit = [
   "tests/*",
   "*/__init__.py",
@@ -58,7 +58,7 @@ exclude_also = [
 # strategy-simulator/pyproject.toml
 [project]
 name = "strategy-simulator"
-version = "0.1.0"
+version = "0.1.1"
 requires-python = ">=3.10"
 dependencies = ["pandas","numpy","matplotlib","yfinance","scipy","pyyaml","pyarrow"]
 
@@ -67,5 +67,5 @@ requires = ["setuptools","wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["src*"]
+include = ["strategy_simulator*"]
 exclude = ["data*"]

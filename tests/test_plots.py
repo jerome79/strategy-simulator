@@ -3,7 +3,6 @@ import pandas as pd
 
 matplotlib.use("Agg")  # ensure headless backend
 import pytest
-
 from src.plots import plot_equity_curve
 
 
