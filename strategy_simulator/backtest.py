@@ -1,5 +1,6 @@
 import pandas as pd
-from src.metrics import compute_ic, max_drawdown, sharpe_ratio
+
+from strategy_simulator.metrics import compute_ic, max_drawdown, sharpe_ratio
 
 
 def run_longshort(

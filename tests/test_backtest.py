@@ -9,7 +9,7 @@ if str(root) not in sys.path:
     sys.path.insert(0, str(root))
 
 
-from src.backtest import run_longshort
+from strategy_simulator.backtest import run_longshort
 
 
 def test_run_longshort_basic(ample_panel: pd.DataFrame) -> None:

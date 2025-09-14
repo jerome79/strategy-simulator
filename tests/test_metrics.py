@@ -9,7 +9,7 @@ if str(root) not in sys.path:
     sys.path.insert(0, str(root))
 
 
-from src.metrics import compute_ic, max_drawdown, sharpe_ratio
+from strategy_simulator.metrics import compute_ic, max_drawdown, sharpe_ratio
 
 
 def test_compute_ic_enough_data() -> None:

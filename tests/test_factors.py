@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 import pytest
-from src.factors import compute_factors
+
+from strategy_simulator.factors import compute_factors
 
 
 @pytest.fixture
