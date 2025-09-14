@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from src.public_api import last_metrics
+from strategy_simulator.public_api import last_metrics
 
 
 def test_last_metrics_file_exists_and_valid_json(tmp_path: "Path") -> None:

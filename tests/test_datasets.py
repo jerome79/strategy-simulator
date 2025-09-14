@@ -3,7 +3,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from pytest import MonkeyPatch
-from src.datasets import load_prices, load_sentiment
+
+from strategy_simulator.datasets import load_prices, load_sentiment
 
 
 def test_load_sentiment_converts_dates(tmp_path: "Path") -> None:
