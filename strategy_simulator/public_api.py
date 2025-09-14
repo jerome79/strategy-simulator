@@ -7,10 +7,10 @@ if str(root) not in sys.path:
 import json
 import os
 
-from src.backtest import run_longshort
-from src.datasets import load_prices, load_sentiment
-from src.factors import compute_factors
-from src.plots import plot_equity_curve
+from strategy_simulator.backtest import run_longshort
+from strategy_simulator.datasets import load_prices, load_sentiment
+from strategy_simulator.factors import compute_factors
+from strategy_simulator.plots import plot_equity_curve
 
 
 def last_metrics(metrics_path: str = "reports/metrics.json", curve_path: str = "reports/equity_curve.png") -> dict:
