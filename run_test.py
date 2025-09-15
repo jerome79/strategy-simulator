@@ -1,10 +1,10 @@
 # run_test.py (drop in repo root and run: python run_test.py)
 
 
-from src.backtest import run_longshort
-from src.datasets import load_prices, load_sentiment
-from src.factors import compute_factors
-from src.plots import plot_equity_curve
+from strategy_simulator.backtest import run_longshort
+from strategy_simulator.datasets import load_prices, load_sentiment
+from strategy_simulator.factors import compute_factors
+from strategy_simulator.plots import plot_equity_curve
 
 panel = load_sentiment("data/sentiment_panel.parquet")
 tickers = sorted(panel["ticker"].dropna().unique().tolist())[:50]  # cap for speed

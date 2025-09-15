@@ -64,7 +64,7 @@ pip install -e .[dev]
 pre-commit install
 
 # 3. Run baseline backtest
-python scripts/run_backtest.py --config configs/backtest.default.yaml
+python run_test.py
 
 # 4. View results
 ls reports/

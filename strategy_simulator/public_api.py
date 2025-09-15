@@ -53,7 +53,9 @@ def run_backtest_from_panel(panel_path: str, factor: str = "SENT_L1", horizon: i
     rets = prices.pct_change(periods=horizon).shift(-horizon)
 
     fac = compute_factors(panel).set_index(["date", "ticker"]).sort_index()
-    joined = fac.join(rets.stack().rename("fwd_return").to_frame(), how="inner").reset_index()
+    rets_stacked = rets.stack().rename("fwd_return").to_frame()
+    rets_stacked.index.set_names(["date", "ticker"], inplace=True)
+    joined = fac.join(rets_stacked, how="inner").reset_index()
 
     strat, metrics = run_longshort(joined, factor_col=factor, fwd_return_col="fwd_return")
     fig = plot_equity_curve(strat, title=f"Sentiment L/S — {factor}")
