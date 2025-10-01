@@ -1,0 +1,4 @@
+# Optional dependencies for the LLM step (not required for legacy usage)
+transformers>=4.44
+torch>=2.3
+tqdm>=4.66
