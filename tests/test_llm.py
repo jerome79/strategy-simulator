@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 from typing import Any
 from unittest.mock import MagicMock, patch
 
@@ -86,15 +85,15 @@ def test__load_pipeline_fallback(mock_pipeline: MagicMock) -> None:
 
 
 @patch("strategy_simulator.llm_sentiment.score_headlines")
-def test_to_parquet_panel(mock_score: MagicMock, tmp_path: Path, sample_df: pd.DataFrame) -> None:
+def test_to_parquet_panel(mock_score: MagicMock, sample_df: pd.DataFrame) -> None:
     """
     Test that to_parquet_panel writes a parquet file with the expected columns and data.
     """
     df = sample_df.copy()
     df["sentiment"] = [1.0, -1.0, 0.0]
     mock_score.return_value = df
-    csv_path = tmp_path / "input.csv"
-    parquet_path = tmp_path / "out.parquet"
+    csv_path = "input.csv"
+    parquet_path = "out.parquet"
     df.to_csv(str(csv_path), index=False)
     out_path = llm_sentiment.to_parquet_panel(str(csv_path), str(parquet_path), text_col="headline", date_col="date", ticker_col="ticker")
     assert os.path.exists(out_path)
