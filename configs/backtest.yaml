@@ -1,15 +1,14 @@
-# Recruiter-facing E2E config:
 # Demonstrates the full pipeline inside this repo:
 # raw CSV -> LLM sentiment -> factor -> L/S portfolio -> reports
 
 seed: 42
 
 data:
-  raw_headlines_csv: "data/sample_headlines.csv"     # small sample so anyone can run
+  raw_headlines_csv: "data/samples_headline.csv"     # small sample so anyone can run
   universe: [AAPL, MSFT, AMZN, GOOGL, META]
   start: "2024-04-01"
   end:   "2024-06-30"
-  sentiment_parquet: "data/sentiment_panel.parquet"  # output from the LLM step
+  sentiment_parquet: "data/sentiment_panel_sample.parquet"  # output from the LLM step
 
 llm:
   model_name: "ProsusAI/finbert"   # falls back to SST-2 if not present

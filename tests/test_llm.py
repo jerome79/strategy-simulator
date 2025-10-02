@@ -12,7 +12,6 @@ from strategy_simulator.llm_sentiment import score_headlines
 
 def test_scoring_schema() -> None:
     """
-    Recruiter-facing guarantee:
     - Output includes sentiment columns and signed sentiment in [-1,1]
     - Downstream backtest requires only [date, ticker, sentiment] after daily aggregation
     """

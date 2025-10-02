@@ -6,9 +6,6 @@ WHAT CHANGED:
 - Optionally builds the sentiment parquet from raw headlines if config includes an `llm` section.
 - If `llm` is absent, behavior is unchanged: we assume a precomputed sentiment parquet.
 
-WHY IT MATTERS:
-- Enables a one-command, end-to-end demo for recruiters (LLM -> factor -> backtest).
-- Keeps Research Copilot integration intact (no API renames; parquet schema unchanged).
 """
 from __future__ import annotations
 
@@ -16,10 +13,11 @@ import argparse
 import os
 
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import yaml
 import yfinance as yf
+
+from strategy_simulator.metrics import compute_ic, max_drawdown, sharpe_ratio
 
 
 def load_prices(tickers: list[str], start: str, end: str) -> pd.DataFrame:
@@ -100,13 +98,13 @@ def evaluate(portfolio: pd.DataFrame, fwd: pd.DataFrame, out_dir: str) -> dict:
     core["pnl"] = core["weight"] * core["fwd_ret_1d"]
     daily = core.groupby("date")["pnl"].sum().to_frame("ret").reset_index()
     daily["equity"] = (1 + daily["ret"]).cumprod()
-    sr = daily["ret"].mean() / (daily["ret"].std() + 1e-12) * np.sqrt(252)
-    mdd = (daily["equity"].cummax() - daily["equity"]).max()
-    ic = core.groupby("date").apply(lambda x: x["factor"].rank().corr(x["fwd_ret_1d"].rank(), method="spearman")).mean()
+    sr = sharpe_ratio(daily["ret"])
+    mdd = max_drawdown(daily["equity"])
+    ic = compute_ic(core["factor"], core["fwd_ret_1d"])
     metrics = {"sharpe": float(sr), "max_drawdown": float(mdd), "ic": float(ic)}
 
     os.makedirs(out_dir, exist_ok=True)
-    fig_path = os.path.join(out_dir, "equity_curve.png")
+    fig_path = os.path.join(out_dir, "equity_curve_backtest.png")
     plt.figure()
     plt.plot(daily["date"], daily["equity"])
     plt.title("Equity Curve (Long/Short)")
@@ -161,7 +159,7 @@ def main() -> None:
         None
     """
     ap = argparse.ArgumentParser()
-    ap.add_argument("--config", default="configs/backtest.llm.yaml")
+    ap.add_argument("--config", default="configs/backtest.yaml")
     args = ap.parse_args()
     with open(args.config) as f:
         cfg = yaml.safe_load(f)
@@ -170,7 +168,9 @@ def main() -> None:
     maybe_build_llm_sentiment(cfg)
 
     # 2) Load sentiment panel (either just built or precomputed)
-    sent = pd.read_parquet(cfg["data"]["sentiment_parquet"])
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    sent = pd.read_parquet(os.path.abspath(os.path.join(project_root, cfg["data"]["sentiment_parquet"])))
 
     # 3) Prices + forward returns
     px = load_prices(cfg["data"]["universe"], cfg["data"]["start"], cfg["data"]["end"])
@@ -179,7 +179,7 @@ def main() -> None:
     # 4) Factor -> 5) Portfolio -> 6) Evaluate + save equity curve
     fac = compute_factor(sent, cfg["factor"]["name"], cfg["factor"].get("shock_window", 5))
     port = rank_and_portfolio(fac, cfg["portfolio"]["long_percentile"], cfg["portfolio"]["short_percentile"])
-    metrics = evaluate(port, fwd, cfg["reports"]["out_dir"])
+    metrics = evaluate(port, fwd, os.path.abspath(os.path.join(project_root, cfg["reports"]["out_dir"])))
     print(metrics)
 
 

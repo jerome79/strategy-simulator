@@ -80,7 +80,14 @@ python run_test.py
 # 4. View results
 ls reports/
 ```
+## Docker Quickstart
 
+Run the simulator in a clean, reproducible container (no local Python needed).
+
+### 1) Build the image
+```bash
+docker compose up --build
+```
 ---
 
 ## 📂 Project Layout

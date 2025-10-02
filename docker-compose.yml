@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  sim:
+    build: .
+    image: strategy-simulator:latest
+    working_dir: /app
+    command: >
+      python scripts/run_backtest.py
+      --config configs/backtest.sample.yaml
+    volumes:
+      - ./reports:/app/reports
+      - ./configs:/app/configs
+      - ./sample_data:/app/sample_data
+    # If you want to pass env vars (e.g., API keys), add them here:
+    # environment:
+    #   OPENAI_API_KEY: ${OPENAI_API_KEY}

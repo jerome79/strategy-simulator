@@ -1,7 +1,7 @@
 """
 LLM Sentiment Builder (Additive, Optional)
 
-WHAT THIS BRINGS (recruiter-facing):
+WHAT THIS BRINGS:
 - Makes the AI/LLM part explicit inside this repo:
   raw headlines -> Hugging Face model (FinBERT by default) -> daily sentiment panel
 - Enables a one-command, end-to-end demo without having to fetch a prebuilt sentiment parquet
@@ -93,12 +93,14 @@ def to_parquet_panel(
     - Groups intraday rows to daily mean per ticker.
     - Writes to parquet at `parquet_out`.
 
-    RECRUITER EXPLANATION:
     This function turns raw text into the exact parquet format our backtest already expects,
     proving end-to-end capability (LLM NLP -> factor -> portfolio -> metrics) inside a single repo.
     """
-    os.makedirs(os.path.dirname(parquet_out), exist_ok=True)
-    df = pd.read_csv(headlines_csv, parse_dates=[date_col])
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    abs_dir = os.path.abspath(os.path.join(project_root, os.path.dirname(parquet_out)))
+    abs_path = os.path.abspath(os.path.join(project_root, headlines_csv))
+    os.makedirs(abs_dir, exist_ok=True)
+    df = pd.read_csv(abs_path, parse_dates=[date_col])
     scored = score_headlines(df, text_col=text_col, model_name=model_name, batch_size=batch_size)
 
     panel = (
@@ -109,5 +111,5 @@ def to_parquet_panel(
     counts = scored.groupby([pd.Grouper(key=date_col, freq="D"), ticker_col])["sentiment"].size().reset_index(name="source_count").rename(columns={date_col: "date"})
     panel = panel.merge(counts, on=["date", ticker_col], how="left")
 
-    panel.to_parquet(parquet_out, index=False)
+    panel.to_parquet(os.path.abspath(os.path.join(project_root, parquet_out)), index=False)
     return parquet_out
