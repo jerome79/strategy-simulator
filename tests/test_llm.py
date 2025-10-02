@@ -86,7 +86,6 @@ def test__load_pipeline_fallback(mock_pipeline: MagicMock) -> None:
 
 
 @patch("strategy_simulator.llm_sentiment.score_headlines")
-@patch("strategy_simulator.llm_sentiment.score_headlines")
 def test_to_parquet_panel(mock_score: MagicMock, tmp_path: Path, sample_df: pd.DataFrame) -> None:
     """
     Test that to_parquet_panel writes a parquet file with the expected columns and data.

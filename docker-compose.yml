@@ -7,7 +7,7 @@ services:
     working_dir: /app
     command: >
       python scripts/run_backtest.py
-      --config configs/backtest.sample.yaml
+      --config configs/backtest.yaml
     volumes:
       - ./reports:/app/reports
       - ./configs:/app/configs
