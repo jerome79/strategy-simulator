@@ -5,6 +5,17 @@ Connect **NLP-derived sentiment signals** to **portfolio performance** with repr
 
 ---
 
+
+
+
+
+> Backtesting engine that connects NLP sentiment signals to equity factor performance with reproducible, config-driven pipelines.
+
+![CI](https://img.shields.io/badge/tests-passing-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+
+
 ## 🚀 Why This Exists
 
 | Problem | Impact |
@@ -75,7 +86,7 @@ ls reports/
 ## 📂 Project Layout
 
 ```
-strategy_sim/        Package code
+strategy_simulator/        Package code
 configs/             YAML config files
 scripts/             CLI entry points
 data/                (gitignored) sentiment & prices
@@ -99,17 +110,17 @@ See [docs/data_schema.md](docs/data_schema.md). Minimal sentiment panel columns:
 
 ---
 
-## 🧪 Example (Programmatic)
+## Example (Programmatic)
 
 ```python
-from strategy_sim.config import load_config
-from strategy_sim.pipeline import run_strategy
+from strategy_simulator.config import load_config
+from strategy_simulator.pipeline import run_strategy
 
 cfg = load_config("configs/backtest.default.yaml")
-strat, metrics, fig = run_strategy(cfg)
+strategy, metrics, fig = run_strategy(cfg)
 print(metrics)
+# fig.savefig("reports/equity_curve_SENT_L1.png", dpi=150, bbox_inches="tight")
 ```
-
 ---
 
 ## 🧬 Factor Definitions
@@ -131,7 +142,10 @@ Full list in [docs/factor_definitions.md](docs/factor_definitions.md).
 | Max Drawdown | -0.18 |
 | IC (mean) | 0.045 |
 
-Equity curve saved to: `reports/equity_curve_SENT_L1.png`
+sample report: ![Equity curve example](reports/equity_curve.png)
+
+
+
 
 ---
 
