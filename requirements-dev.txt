@@ -10,3 +10,5 @@ bandit>=1.7.8
 pip-audit>=2.7.0
 pre-commit>=3.7.0
 types-PyYAML
+pyarrow
+fastparquet
