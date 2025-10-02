@@ -9,9 +9,12 @@ tqdm>=4.66
 
 # finance utils
 yfinance>=0.2.50
+# parquet engine (needed at runtime by backtest & llm_sentiment parquet output)
+pyarrow>=17.0
 
 # LLM/NLP
 transformers>=4.44
 torch>=2.3; platform_system!="Darwin" or platform_machine!="arm64"
 torch>=2.3; platform_system=="Darwin" and platform_machine=="arm64" and python_version>="3.10"
 # (torch install line can be adapted per platform)
+# core (runtime)
